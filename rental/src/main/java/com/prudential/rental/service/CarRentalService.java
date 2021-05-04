@@ -33,7 +33,7 @@ public interface CarRentalService {
 	 * @return BaseResult 返回类型
 	 * @throws
 	 */
-	public BaseResult rentalSendBack(CarOrderSendBackVo carOrderSendBackVo) throws Exception;
+	public BaseResult rentalSendBack(String orderId) throws Exception;
 	/**
 	 * 
 	 * @Title: listAllRentalOrder

@@ -123,29 +123,33 @@ public class CarRentalServiceImpl implements CarRentalService {
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public BaseResult rentalSendBack(CarOrderSendBackVo carOrderSendBackVo) throws Exception {
-		String userId = carOrderSendBackVo.getUserId();
-		if (StringUtils.isEmpty(userId)) {
-			throw new Exception("获取不到用户信息，请重新登陆！");
-		}
-		String orderId = carOrderSendBackVo.getOrderId();
-		if (StringUtils.isEmpty(orderId)) {
-			throw new Exception("没有选择订单信息，请重新选择！");
-		}
+	public BaseResult rentalSendBack(String orderId) throws Exception {
 		BaseResult baseResult = new BaseResult();
-		try {
+		if (StringUtils.isEmpty(orderId)) {
+			baseResult.setResultCode(GeneralResultTypeEnum.FAIL.getCode());
+			baseResult.setResultMsg("没有订单信息，请重新选择");
+			return baseResult;
+		}
 
+		try {
 			Criteria carStockexample = new Criteria();
 			carStockexample.createConditon().andEqualTo("order_id", orderId);
 			List<RentalOrder> orderList = rentalOrderMapper.selectByExample(carStockexample);
 			if (orderList == null || orderList.size() == 0) {
-				throw new Exception("没有订单信息，请重新选择！");
+				baseResult.setResultCode(GeneralResultTypeEnum.FAIL.getCode());
+				baseResult.setResultMsg("没有订单信息，请重新选择");
+				return baseResult;
 			}
 			RentalOrder rentalOrder = orderList.get(0);
+			if (!canSendBack(rentalOrder)) {
+				baseResult.setResultCode(GeneralResultTypeEnum.FAIL.getCode());
+				baseResult.setResultMsg("该订单状态不允许该操作");
+				return baseResult;
+			}
 			rentalOrder.setOrderStatus(OrderStatus.SEND_BACK);
 			Date today = new Date();
 			rentalOrder.setDateUpdated(today);
-			//更新订单表
+			// 更新订单表
 			rentalOrderMapper.updateByPrimaryKey(rentalOrder);
 			List<RentalOrderDetail> orderDetailList = rentalOrderDetailMapper.selectByExample(carStockexample);
 			if (orderDetailList == null || orderDetailList.size() == 0) {
@@ -177,6 +181,14 @@ public class CarRentalServiceImpl implements CarRentalService {
 			logger.error("租赁归还异常！", e);
 		}
 		return baseResult;
+	}
+
+	private boolean canSendBack(RentalOrder rentalOrder) {
+		OrderStatus status = rentalOrder.getOrderStatus();
+		if (status == null || status.equals(OrderStatus.CANCEL) || status.equals(OrderStatus.SEND_BACK)) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override

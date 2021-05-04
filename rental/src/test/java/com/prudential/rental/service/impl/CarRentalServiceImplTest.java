@@ -63,20 +63,16 @@ public class CarRentalServiceImplTest {
 
 		List<RentalOrder> orderList = (List<RentalOrder>) baseResult.getDatas();
 		Assert.assertTrue(orderList != null && orderList.size() > 0);
-		RentalOrder rentalOrder=null;
+		RentalOrder rentalOrder = null;
 		for (RentalOrder element : orderList) {
-			if(element.getOrderStatus().equals(OrderStatus.UN_PAY)){
-				rentalOrder=element;
+			if (element.getOrderStatus().equals(OrderStatus.UN_PAY)) {
+				rentalOrder = element;
 				break;
 			}
 		}
 		Assert.assertNotNull(rentalOrder);
-		
-		CarOrderSendBackVo carOrderSendBackVo = new CarOrderSendBackVo();
-		carOrderSendBackVo.setUserId("user1");
-		carOrderSendBackVo.setOrderId(rentalOrder.getOrderId());
-		baseResult = carRentalService.rentalSendBack(carOrderSendBackVo);
-		
+
+		baseResult = carRentalService.rentalSendBack(rentalOrder.getOrderId());
 		RentalOrder newOrder = rentalOrderMapper.selectByPrimaryKey(rentalOrder.getId());
 		Assert.assertTrue(newOrder.getOrderStatus() == OrderStatus.SEND_BACK);
 	}

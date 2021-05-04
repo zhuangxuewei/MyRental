@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +40,6 @@ public class CarRentalController {
 	 */
 	@RequestMapping(value = "/orders", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	public BaseResult takeRentalOrder(@RequestBody TakeCarOrderVo carOrderVo) {
-		// CemsCoreCourse course = courseManagerService.getCourseById(id);
 		BaseResult baseResult = new BaseResult();
 		try {
 			baseResult = carRentalService.takeRentalOrder(carOrderVo);
@@ -58,12 +58,12 @@ public class CarRentalController {
 	 *         carOrderSendBackVo @param @param orderId @param @return
 	 *         参数 @return BaseResult 返回类型 @throws
 	 */
-	@RequestMapping(value = "/orders/{orderId}/sendBack", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	@RequestMapping(value = "/orders/{orderId}/sendBack", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
 	@ResponseBody
-	public BaseResult rentalSendBack(@RequestBody CarOrderSendBackVo carOrderSendBackVo, @PathVariable String orderId) {
+	public BaseResult rentalSendBack( @PathVariable String orderId) {
 		BaseResult baseResult = new BaseResult();
 		try {
-			baseResult = carRentalService.rentalSendBack(carOrderSendBackVo);
+			baseResult = carRentalService.rentalSendBack(orderId);
 		} catch (Exception e) {
 			logger.error("租赁归还失败：" + e.getMessage(), e);
 			baseResult = new BaseResult();
@@ -80,8 +80,7 @@ public class CarRentalController {
 	 */
 	@RequestMapping(value = "/orders", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
 	@ResponseBody
-	public BaseResult listAllRentalOrder(String userId) {
-		// CemsCoreCourse course = courseManagerService.getCourseById(id);
+	public BaseResult listAllRentalOrder(@RequestParam("userId") String userId) {
 		BaseResult baseResult = new BaseResult();
 		try {
 			baseResult = carRentalService.listAllRentalOrder(userId);

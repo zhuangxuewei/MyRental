@@ -25,7 +25,7 @@ public class CarStockController {
 	/**
 	 * 
 	 * @Title: listAllCarStock @Description: 列出所有库存 @param @param
-	 * carOrderVo @param @return 参数 @return BaseResult 返回类型 @throws
+	 *         carOrderVo @param @return 参数 @return BaseResult 返回类型 @throws
 	 */
 	@RequestMapping(value = "/carStocks", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
 	public BaseResult listAllCarStock() {
@@ -44,7 +44,7 @@ public class CarStockController {
 	/**
 	 * 
 	 * @Title: addCarStock @Description: 添加车辆库存 @param @param
-	 * carStock @param @return 参数 @return BaseResult 返回类型 @throws
+	 *         carStock @param @return 参数 @return BaseResult 返回类型 @throws
 	 */
 	@RequestMapping(value = "/carStocks", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	public BaseResult addCarStock(@RequestBody CarStock carStock) {
@@ -63,9 +63,9 @@ public class CarStockController {
 	/**
 	 * 
 	 * @Title: deleteCarStock @Description: 删除某个车辆库存 @param @param
-	 * id @param @return 参数 @return BaseResult 返回类型 @throws
+	 *         id @param @return 参数 @return BaseResult 返回类型 @throws
 	 */
-	@RequestMapping(value = "/carStocks/{Id}", method = RequestMethod.DELETE, produces = "application/json;charset=utf-8")
+	@RequestMapping(value = "/carStocks/{id}", method = RequestMethod.DELETE, produces = "application/json;charset=utf-8")
 	public BaseResult deleteCarStock(@PathVariable String id) {
 		BaseResult baseResult = new BaseResult();
 		try {
@@ -79,10 +79,11 @@ public class CarStockController {
 		return baseResult;
 	}
 
-	@RequestMapping(value = "/carStocks/{Id}", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
-	public BaseResult updateCarStock(@PathVariable String id, CarStock carStock) {
+	@RequestMapping(value = "/carStocks/{id}", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
+	public BaseResult updateCarStock(@PathVariable String id, @RequestBody CarStock carStock) {
 		BaseResult baseResult = new BaseResult();
 		try {
+			carStock.setId(id);
 			baseResult = carStockService.updateCarStock(carStock);
 		} catch (Exception e) {
 			logger.error("更新车辆库存失败：" + e.getMessage(), e);

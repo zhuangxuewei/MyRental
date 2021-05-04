@@ -78,7 +78,7 @@ public class CarStockServiceImpl implements CarStockService {
 		BaseResult baseResult = new BaseResult();
 		try {
 			carStock.setDateUpdated(new Date());
-			int flag = carStockMapper.updateByPrimaryKey(carStock);
+			int flag = carStockMapper.updateByPrimaryKeySelective(carStock);
 			if (flag != 1) {
 				throw new Exception("更新库存失败！");
 			}
@@ -90,6 +90,5 @@ public class CarStockServiceImpl implements CarStockService {
 		}
 		return baseResult;
 	}
-	
 
 }
