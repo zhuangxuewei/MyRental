@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.prudential.rental.dao.CarStockMapper">
+	<resultMap id="BaseResultMap" type="com.prudential.rental.model.entity.CarStock">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="car_model" property="carModel" jdbcType="VARCHAR" />
+		<result column="stock_num" property="stockNum" jdbcType="INTEGER" />
+		<result column="rental_price" property="rentalPrice" jdbcType="DECIMAL" />
+		<result column="date_created" property="dateCreated" jdbcType="TIMESTAMP" />
+		<result column="date_updated" property="dateUpdated" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, car_model, stock_num, rental_price, date_created,
+		date_updated
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.prudential.rental.common.mybatis.Criteria">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from car_stock
+		<if test="_parameter != null">
+			<include refid="common.Example_Where_Clause" />
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from car_stock
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		car_stock
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.prudential.rental.common.mybatis.Criteria">
+		delete from car_stock
+		<if test="_parameter != null">
+			<include refid="common.Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.prudential.rental.model.entity.CarStock">
+		insert into car_stock
+		(car_model, stock_num,
+		rental_price, date_created, date_updated)
+		values
+		(#{carModel,jdbcType=VARCHAR}, #{stockNum,jdbcType=INTEGER},
+		#{rentalPrice,jdbcType=DECIMAL}, #{dateCreated,jdbcType=TIMESTAMP},
+		#{dateUpdated,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.prudential.rental.model.entity.CarStock">
+		insert into car_stock
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="carModel != null">
+				car_model,
+			</if>
+			<if test="stockNum != null">
+				stock_num,
+			</if>
+			<if test="rentalPrice != null">
+				rental_price,
+			</if>
+			<if test="dateCreated != null">
+				date_created,
+			</if>
+			<if test="dateUpdated != null">
+				date_updated,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+
+			<if test="carModel != null">
+				#{carModel,jdbcType=VARCHAR},
+			</if>
+			<if test="stockNum != null">
+				#{stockNum,jdbcType=INTEGER},
+			</if>
+			<if test="rentalPrice != null">
+				#{rentalPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="dateCreated != null">
+				#{dateCreated,jdbcType=TIMESTAMP},
+			</if>
+			<if test="dateUpdated != null">
+				#{dateUpdated,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.prudential.rental.common.mybatis.Criteria"
+		resultType="java.lang.Integer">
+		select count(*) from car_stock
+		<if test="_parameter != null">
+			<include refid="common.Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update car_stock
+		<set>
+			<if test="carModel != null">
+				car_model,
+			</if>
+			<if test="stockNum != null">
+				stock_num,
+			</if>
+			<if test="rentalPrice != null">
+				rental_price,
+			</if>
+			<if test="dateCreated != null">
+				date_created,
+			</if>
+			<if test="dateUpdated != null">
+				date_updated,
+			</if>
+
+		</set>
+		<if test="_parameter != null">
+			<include refid="common.Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update car_stock
+		set car_model = #{record.carModel,jdbcType=VARCHAR},
+		stock_num = #{record.stockNum,jdbcType=INTEGER},
+		rental_price =
+		#{record.rentalPrice,jdbcType=DECIMAL},
+		date_created =
+		#{record.dateCreated,jdbcType=TIMESTAMP},
+		date_updated =
+		#{record.dateUpdated,jdbcType=TIMESTAMP}
+
+		<if test="_parameter != null">
+			<include refid="common.Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.prudential.rental.model.entity.CarStock">
+		update car_stock
+		<set>
+			<if test="carModel != null">
+				car_model = #{carModel,jdbcType=VARCHAR},
+			</if>
+			<if test="stockNum != null">
+				stock_num = #{stockNum,jdbcType=INTEGER},
+			</if>
+			<if test="rentalPrice != null">
+				rental_price = #{rentalPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="dateCreated != null">
+				date_created = #{dateCreated,jdbcType=TIMESTAMP},
+			</if>
+			<if test="dateUpdated != null">
+				date_updated = #{dateUpdated,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.prudential.rental.model.entity.CarStock">
+		update car_stock
+		set car_model = #{record.carModel,jdbcType=VARCHAR},
+		stock_num =
+		#{record.stockNum,jdbcType=INTEGER},
+		rental_price =
+		#{record.rentalPrice,jdbcType=DECIMAL},
+		date_created =
+		#{record.dateCreated,jdbcType=TIMESTAMP},
+		date_updated =
+		#{record.dateUpdated,jdbcType=TIMESTAMP}
+		where id =
+		#{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

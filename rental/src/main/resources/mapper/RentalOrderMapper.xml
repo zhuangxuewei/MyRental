@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.prudential.rental.dao.RentalOrderMapper">
+	<resultMap id="BaseResultMap"
+		type="com.prudential.rental.model.entity.RentalOrder">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="order_id" property="orderId" jdbcType="VARCHAR" />
+		<result column="rental_user_id" property="rentalUserId"
+			jdbcType="VARCHAR" />
+		<result column="rental_days" property="rentalDays" jdbcType="INTEGER" />
+		<result column="total_amount" property="totalAmount" jdbcType="DECIMAL" />
+		<result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+		<result column="date_created" property="dateCreated" jdbcType="TIMESTAMP" />
+		<result column="date_updated" property="dateUpdated" jdbcType="TIMESTAMP" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, order_id, rental_user_id,rental_days,
+		total_amount,order_status,
+		date_created,
+		date_updated
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.prudential.rental.common.mybatis.Criteria">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from rental_order
+		<if test="_parameter != null">
+			<include refid="common.Example_Where_Clause" />
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from rental_order
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		rental_order
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.prudential.rental.common.mybatis.Criteria">
+		delete from rental_order
+		<if test="_parameter != null">
+			<include refid="common.Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.prudential.rental.model.entity.RentalOrder">
+		insert into
+		rental_order
+		(order_id, rental_user_id,rental_days,
+		total_amount,order_status,
+		date_created, date_updated)
+		values
+		(#{orderId,jdbcType=VARCHAR},
+		#{rentalUserId,jdbcType=VARCHAR},
+		#{rentalDays,jdbcType=INTEGER},
+		#{totalAmount,jdbcType=DECIMAL},
+		#{orderStatus,jdbcType=VARCHAR},#{dateCreated,jdbcType=TIMESTAMP},
+		#{dateUpdated,jdbcType=TIMESTAMP})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.prudential.rental.model.entity.RentalOrder">
+		insert into rental_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderId != null">
+				order_id,
+			</if>
+			<if test="rentalUserId != null">
+				rental_user_id,
+			</if>
+			<if test="rentalDays != null">
+				rental_days,
+			</if>
+			<if test="totalAmount != null">
+				total_amount,
+			</if>
+			<if test="orderStatus != null">
+				order_status,
+			</if>
+			<if test="dateCreated != null">
+				date_created,
+			</if>
+			<if test="dateUpdated != null">
+				date_updated,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="rentalUserId != null">
+				#{rentalUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="rentalDays != null">
+				#{rentalDays,jdbcType=INTEGER},
+			</if>
+			<if test="totalAmount != null">
+				#{totalAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="orderStatus != null">
+				#{orderStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="dateCreated != null">
+				#{dateCreated,jdbcType=TIMESTAMP},
+			</if>
+			<if test="dateUpdated != null">
+				#{dateUpdated,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.prudential.rental.common.mybatis.Criteria"
+		resultType="java.lang.Integer">
+		select count(*) from rental_order
+		<if test="_parameter != null">
+			<include refid="common.Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update rental_order
+		<set>
+			<if test="orderId != null">
+				order_id = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="rentalUserId != null">
+				rental_user_id = #{rentalUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="rentalDays != null">
+				rental_days = #{rentalDays,jdbcType=INTEGER},
+			</if>
+			<if test="totalAmount != null">
+				total_amount = #{totalAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="orderStatus != null">
+				order_status = #{orderStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="dateCreated != null">
+				date_created = #{dateCreated,jdbcType=TIMESTAMP},
+			</if>
+			<if test="dateUpdated != null">
+				date_updated = #{dateUpdated,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="common.Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update rental_order
+		set order_id =
+		#{record.orderId,jdbcType=VARCHAR},
+		rental_user_id =
+		#{record.rentalUserId,jdbcType=VARCHAR},
+		rental_days =
+		#{record.rentalDays,jdbcType=INTEGER},
+		total_amount =
+		#{record.totalAmount,jdbcType=DECIMAL},
+		order_status =
+		#{record.orderStatus,jdbcType=INTEGER},
+		date_created =
+		#{record.dateCreated,jdbcType=TIMESTAMP},
+		date_updated =
+		#{record.dateUpdated,jdbcType=TIMESTAMP}
+
+		<if test="_parameter != null">
+			<include refid="common.Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.prudential.rental.model.entity.RentalOrder">
+		update rental_order
+		<set>
+			<if test="orderId != null">
+				order_id = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="rentalUserId != null">
+				rental_user_id = #{rentalUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="rentalDays != null">
+				rental_days = #{rentalDays,jdbcType=VARCHAR},
+			</if>
+			<if test="totalAmount != null">
+				total_amount = #{totalAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="orderStatus != null">
+				order_status = #{rentalDays,jdbcType=VARCHAR},
+			</if>
+			<if test="dateCreated != null">
+				date_created = #{dateCreated,jdbcType=TIMESTAMP},
+			</if>
+			<if test="dateUpdated != null">
+				date_updated = #{dateUpdated,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.prudential.rental.model.entity.RentalOrder">
+		update
+		rental_order
+		set order_id =
+		#{record.orderId,jdbcType=VARCHAR},
+		rental_user_id =
+		#{record.rentalUserId,jdbcType=VARCHAR},
+		rental_days =
+		#{record.rentalDays,jdbcType=VARCHAR},
+		total_amount =
+		#{record.totalAmount,jdbcType=INTEGER},
+		order_status =
+		#{record.orderStatus,jdbcType=INTEGER},
+		date_created =
+		#{record.dateCreated,jdbcType=TIMESTAMP},
+		date_updated =
+		#{record.dateUpdated,jdbcType=TIMESTAMP}
+		where id =
+		#{id,jdbcType=VARCHAR}
+	</update>
+</mapper>
