@@ -72,6 +72,24 @@ public class CarStockServiceImpl implements CarStockService {
 		}
 		return baseResult;
 	}
+
+	@Override
+	public BaseResult updateCarStock(CarStock carStock) throws Exception {
+		BaseResult baseResult = new BaseResult();
+		try {
+			carStock.setDateUpdated(new Date());
+			int flag = carStockMapper.updateByPrimaryKey(carStock);
+			if (flag != 1) {
+				throw new Exception("更新库存失败！");
+			}
+		} catch (Exception e) {
+			baseResult = new BaseResult();
+			baseResult.setResultCode(GeneralResultTypeEnum.EXCEPTION.getCode());
+			baseResult.setResultMsg("更新库存异常！");
+			logger.error("更新库存异常！", e);
+		}
+		return baseResult;
+	}
 	
 
 }

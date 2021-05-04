@@ -10,7 +10,7 @@ public class RentalUtil {
 	 */
 	public static String generateOrderId() {
 		long time = System.currentTimeMillis();
-		long random = RandomUtils.nextLong();
+		int random = RandomUtils.nextInt();
 		String result = String.valueOf(time) + String.valueOf(random);
 		return result;
 	}

@@ -161,7 +161,7 @@
 		total_amount =
 		#{record.totalAmount,jdbcType=DECIMAL},
 		order_status =
-		#{record.orderStatus,jdbcType=INTEGER},
+		#{record.orderStatus,jdbcType=VARCHAR},
 		date_created =
 		#{record.dateCreated,jdbcType=TIMESTAMP},
 		date_updated =
@@ -181,7 +181,7 @@
 				rental_user_id = #{rentalUserId,jdbcType=VARCHAR},
 			</if>
 			<if test="rentalDays != null">
-				rental_days = #{rentalDays,jdbcType=VARCHAR},
+				rental_days = #{rentalDays,jdbcType=INTEGER},
 			</if>
 			<if test="totalAmount != null">
 				total_amount = #{totalAmount,jdbcType=DECIMAL},
@@ -206,16 +206,16 @@
 		rental_user_id =
 		#{record.rentalUserId,jdbcType=VARCHAR},
 		rental_days =
-		#{record.rentalDays,jdbcType=VARCHAR},
+		#{record.rentalDays,jdbcType=INTEGER},
 		total_amount =
-		#{record.totalAmount,jdbcType=INTEGER},
+		#{record.totalAmount,jdbcType=DECIMAL},
 		order_status =
-		#{record.orderStatus,jdbcType=INTEGER},
+		#{record.orderStatus,jdbcType=VARCHAR},
 		date_created =
 		#{record.dateCreated,jdbcType=TIMESTAMP},
 		date_updated =
 		#{record.dateUpdated,jdbcType=TIMESTAMP}
 		where id =
-		#{id,jdbcType=VARCHAR}
+		#{record.id,jdbcType=VARCHAR}
 	</update>
 </mapper>

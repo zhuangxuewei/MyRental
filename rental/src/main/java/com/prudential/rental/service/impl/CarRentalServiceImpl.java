@@ -121,6 +121,7 @@ public class CarRentalServiceImpl implements CarRentalService {
 		return baseResult;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public BaseResult rentalSendBack(CarOrderSendBackVo carOrderSendBackVo) throws Exception {
 		String userId = carOrderSendBackVo.getUserId();
@@ -144,12 +145,12 @@ public class CarRentalServiceImpl implements CarRentalService {
 			rentalOrder.setOrderStatus(OrderStatus.SEND_BACK);
 			Date today = new Date();
 			rentalOrder.setDateUpdated(today);
-
+			//更新订单表
+			rentalOrderMapper.updateByPrimaryKey(rentalOrder);
 			List<RentalOrderDetail> orderDetailList = rentalOrderDetailMapper.selectByExample(carStockexample);
 			if (orderDetailList == null || orderDetailList.size() == 0) {
 				throw new Exception("没有订单详情信息，请重新选择！");
 			}
-
 			for (RentalOrderDetail orderDetail : orderDetailList) {
 				CarStock carStock = carStockMapper.selectByPrimaryKey(orderDetail.getCarStockId());
 				if (carStock == null) {
@@ -164,7 +165,7 @@ public class CarRentalServiceImpl implements CarRentalService {
 				}
 				carStock.setStockNum(currentStockNum);
 				carStock.setDateUpdated(today);
-				int flag = carStockMapper.updateByExample(carStock, carStockexample);
+				int flag = carStockMapper.updateByPrimaryKey(carStock);
 				if (flag != 1) {
 					throw new Exception(carStock.getCarModel() + "加库存失败！");
 				}

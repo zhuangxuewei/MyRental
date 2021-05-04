@@ -11,14 +11,14 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 03/05/2021 22:02:37
+ Date: 04/05/2021 23:23:45
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for cars_stock
+-- Table structure for car_stock
 -- ----------------------------
 DROP TABLE IF EXISTS `car_stock`;
 CREATE TABLE `car_stock` (
@@ -29,8 +29,17 @@ CREATE TABLE `car_stock` (
   `date_created` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `date_updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `car_model_index` (`car_model`,`date_created`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=' 租借车辆id';
+  UNIQUE KEY `car_model` (`car_model`),
+  KEY `car_model_index` (`car_model`,`date_created`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT=' 租借车辆id';
+
+-- ----------------------------
+-- Records of car_stock
+-- ----------------------------
+BEGIN;
+INSERT INTO `car_stock` VALUES (1, 'Toyota Camry', 2, 100.00, '2021-05-04 17:41:12', '2021-05-04 17:41:12');
+INSERT INTO `car_stock` VALUES (2, 'BMW 650', 2, 200.00, '2021-05-04 21:57:23', '2021-05-04 21:57:29');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for rental_order
@@ -46,7 +55,8 @@ CREATE TABLE `rental_order` (
   `date_created` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `date_updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `orderId_userId_created_index` (`order_id`,`rental_user_id`,`date_created`) USING BTREE
+  UNIQUE KEY `order_id` (`order_id`),
+  KEY `orderId_userId_created_index` (`order_id`,`rental_user_id`,`date_created`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -61,8 +71,8 @@ CREATE TABLE `rental_order_detail` (
   `date_created` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `date_updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `orderId_created_index` (`order_id`,`date_created`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `orderId_created_index` (`order_id`,`date_created`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for rental_user
@@ -76,9 +86,17 @@ CREATE TABLE `rental_user` (
   `date_created` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `date_updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `userId` (`userId`),
+  UNIQUE KEY `pay_card_no` (`pay_card_no`),
   UNIQUE KEY `userId_card_no_index` (`userId`,`pay_card_no`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of rental_user
+-- ----------------------------
+BEGIN;
+INSERT INTO `rental_user` VALUES (1, 'zhuangxuewei', 'programmer', '1234567891234567', '2021-05-04 21:50:29', '2021-05-04 21:50:35');
+INSERT INTO `rental_user` VALUES (2, 'user1', 'worker', '2324242324232', '2021-05-04 21:51:46', '2021-05-04 21:51:51');
+COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
-
-insert into car_stock( car_model,stock_num,rental_price,date_created,date_updated) values('Toyota Camry',2,100,now(),now())

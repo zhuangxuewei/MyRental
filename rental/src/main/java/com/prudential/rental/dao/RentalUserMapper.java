@@ -116,5 +116,5 @@ public interface RentalUserMapper {
 	 *            要更新成为的RentalUser对象
 	 * @return int 更新记录数
 	 */
-	int updateByPrimaryKey(RentalUser record);
+	int updateByPrimaryKey(@Param("record") RentalUser record);
 }

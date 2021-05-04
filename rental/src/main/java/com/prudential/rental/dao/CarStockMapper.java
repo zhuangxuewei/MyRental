@@ -11,7 +11,7 @@ import com.prudential.rental.model.entity.CarStock;
 /**
  * @ClassName: CarStockMapper
  * @Description: CarStock表对应的dao操作Mapper映射类
- * @author: 
+ * @author:
  */
 @Mapper
 public interface CarStockMapper {
@@ -116,5 +116,5 @@ public interface CarStockMapper {
 	 *            要更新成为的CarStock对象
 	 * @return int 更新记录数
 	 */
-	int updateByPrimaryKey(CarStock record);
+	int updateByPrimaryKey(@Param("record") CarStock record);
 }

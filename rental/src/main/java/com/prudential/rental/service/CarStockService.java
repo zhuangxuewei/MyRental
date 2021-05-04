@@ -44,7 +44,17 @@ public interface CarStockService {
 	 * @throws
 	 */
 	public BaseResult addCarStock(CarStock carStock) throws Exception;
-	
+	/**
+	 * 
+	 * @Title: updateCarStock
+	 * @Description: 更新库存
+	 * @param @param carStock
+	 * @param @return
+	 * @param @throws Exception 参数
+	 * @return BaseResult 返回类型
+	 * @throws
+	 */
+	public BaseResult updateCarStock(CarStock carStock) throws Exception;
 	
 	
 }

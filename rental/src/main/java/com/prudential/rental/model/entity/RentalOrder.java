@@ -11,7 +11,7 @@ import com.prudential.rental.model.enums.OrderStatus;
  * @author zhuangxuewei
  *
  */
-public class RentalOrder {
+public class RentalOrder extends BaseEntity{
 	/**
 	 * 订单号
 	 */

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.prudential.rental.model.entity.BaseResult;
 import com.prudential.rental.model.entity.CarStock;
 import com.prudential.rental.model.enums.GeneralResultTypeEnum;
-import com.prudential.rental.model.vo.TakeCarOrderVo;
 import com.prudential.rental.service.CarStockService;
 
 @RestController
@@ -23,15 +22,10 @@ public class CarStockController {
 	@Resource
 	CarStockService carStockService;
 
-	
 	/**
 	 * 
-	 * @Title: listAllCarStock
-	 * @Description: 列出所有库存
-	 * @param @param carOrderVo
-	 * @param @return 参数
-	 * @return BaseResult 返回类型
-	 * @throws
+	 * @Title: listAllCarStock @Description: 列出所有库存 @param @param
+	 * carOrderVo @param @return 参数 @return BaseResult 返回类型 @throws
 	 */
 	@RequestMapping(value = "/carStocks", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
 	public BaseResult listAllCarStock() {
@@ -46,15 +40,11 @@ public class CarStockController {
 		}
 		return baseResult;
 	}
-	
+
 	/**
 	 * 
-	 * @Title: addCarStock
-	 * @Description: 添加车辆库存
-	 * @param @param carStock
-	 * @param @return 参数
-	 * @return BaseResult 返回类型
-	 * @throws
+	 * @Title: addCarStock @Description: 添加车辆库存 @param @param
+	 * carStock @param @return 参数 @return BaseResult 返回类型 @throws
 	 */
 	@RequestMapping(value = "/carStocks", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	public BaseResult addCarStock(@RequestBody CarStock carStock) {
@@ -69,22 +59,33 @@ public class CarStockController {
 		}
 		return baseResult;
 	}
+
 	/**
 	 * 
-	 * @Title: deleteCarStock
-	 * @Description: 删除某个车辆库存
-	 * @param @param id
-	 * @param @return 参数
-	 * @return BaseResult 返回类型
-	 * @throws
+	 * @Title: deleteCarStock @Description: 删除某个车辆库存 @param @param
+	 * id @param @return 参数 @return BaseResult 返回类型 @throws
 	 */
-	@RequestMapping(value = "/carStocks/{Id}/", method = RequestMethod.DELETE, produces = "application/json;charset=utf-8")
+	@RequestMapping(value = "/carStocks/{Id}", method = RequestMethod.DELETE, produces = "application/json;charset=utf-8")
 	public BaseResult deleteCarStock(@PathVariable String id) {
 		BaseResult baseResult = new BaseResult();
 		try {
 			baseResult = carStockService.deleteCarStock(id);
 		} catch (Exception e) {
 			logger.error("删除车辆库存失败：" + e.getMessage(), e);
+			baseResult = new BaseResult();
+			baseResult.setResultCode(GeneralResultTypeEnum.EXCEPTION.getCode());
+			baseResult.setResultMsg(e.getMessage());
+		}
+		return baseResult;
+	}
+
+	@RequestMapping(value = "/carStocks/{Id}", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
+	public BaseResult updateCarStock(@PathVariable String id, CarStock carStock) {
+		BaseResult baseResult = new BaseResult();
+		try {
+			baseResult = carStockService.updateCarStock(carStock);
+		} catch (Exception e) {
+			logger.error("更新车辆库存失败：" + e.getMessage(), e);
 			baseResult = new BaseResult();
 			baseResult.setResultCode(GeneralResultTypeEnum.EXCEPTION.getCode());
 			baseResult.setResultMsg(e.getMessage());

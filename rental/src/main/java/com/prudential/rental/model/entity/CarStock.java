@@ -2,8 +2,10 @@ package com.prudential.rental.model.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 /**
  * 车辆库存
+ * 
  * @author zhuangxuewei
  *
  */
@@ -20,7 +22,7 @@ public class CarStock extends BaseEntity {
 	/**
 	 * 车辆库存
 	 */
-	private int stockNum;
+	private Integer stockNum;
 	/**
 	 * 车辆租赁价格
 	 */
@@ -42,11 +44,11 @@ public class CarStock extends BaseEntity {
 		this.carModel = carModel;
 	}
 
-	public int getStockNum() {
+	public Integer getStockNum() {
 		return stockNum;
 	}
 
-	public void setStockNum(int stockNum) {
+	public void setStockNum(Integer stockNum) {
 		this.stockNum = stockNum;
 	}
 
